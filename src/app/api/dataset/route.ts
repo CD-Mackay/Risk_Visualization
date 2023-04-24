@@ -1,10 +1,7 @@
 import { google } from 'googleapis';
-import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function getDataSet() {
+  console.log("Running getDataSet()")
   try {
     const target = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
     const jwt = new google.auth.JWT(
@@ -13,12 +10,14 @@ export default async function handler(
       (process.env.GOOGLE_SHEETS_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
       target
     )
+    // let ranges = ["Asset Name", "Lat", "Long", "Business Category", "Risk Rating", "Risk Factors", "Year"]
     const sheets = google.sheets({ version: 'v4', auth: jwt})
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SPREADSHEET_ID,
-      range: 'UI/UX Developer Work Sample Data'
+      range: 'sample_data'
     });
-    return response;
+    console.log("response", response.data.values)
+    return response.data.values;
   } catch(err) {
     console.log(err)
   }
