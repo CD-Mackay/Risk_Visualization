@@ -2,16 +2,15 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { NextComponentType } from "next";
 import { useState } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
+import MarkerContainer from "../MarkerContainer/MarkerContainer";
 
 type Props = {
-  dataset: Array<string>;
+  dataset: Array<string>
 };
 
 const ShowMap: NextComponentType<Props> = ({ dataset }) => {
 
-  const map = useMap();
-  
   const [geoData, setGeoData] = useState({ lat: 64.536634, lng: 16.779852 });
 
   const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
@@ -38,12 +37,7 @@ const ShowMap: NextComponentType<Props> = ({ dataset }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {geoData.lat && geoData.lng && (
-        // <Marker position={center} icon={icon}>
-        //   <Popup>
-        //     A pretty CSS3 popup. <br /> Easily customizable.
-        //   </Popup>
-        // </Marker>
-        <>{showMarkers()}</>
+        <MarkerContainer dataset={dataset} />
       )}
     </MapContainer>
   );

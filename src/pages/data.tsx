@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from 'react';
-const DynamicMap = dynamic(() => import('@/components/Map/ShowMap'), {
+const ShowMap = dynamic(() => import('@/components/Map/ShowMap'), {
   ssr: false,
 })
 
@@ -26,9 +26,11 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   console.log("dataset:", dataset)
 
+  const slicedData = dataset.slice(1, dataset.length);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {isMounted === true && <DynamicMap dataset={dataset} />}
+      {isMounted === true && <ShowMap dataset={slicedData} />}
       {/* {isMounted === true && <ShowMap />} */}
     </main>
   );
