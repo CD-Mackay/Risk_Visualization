@@ -9,11 +9,11 @@ const ShowMap = () => {
 
   const icon = L.icon({ iconUrl: "/images/marker-icon.png"})
 
-  const center = [64.536634, 16.779852];
+  const center: [number, number] = [geoData.lat, geoData.lng];
 
   return (
     <MapContainer
-      center={[64.536634, 16.779852]}
+      center={center}
       zoom={12}
       style={{ height: "40vh", width: '40hw' }}
     >
@@ -22,7 +22,7 @@ const ShowMap = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {geoData.lat && geoData.lng && (
-        <Marker position={[geoData.lat, geoData.lng]} icon={icon}>
+        <Marker position={center} icon={icon}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
