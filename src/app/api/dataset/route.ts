@@ -16,7 +16,7 @@ export default async function getDataSet() {
       spreadsheetId: process.env.SPREADSHEET_ID,
       range: 'sample_data'
     });
-    console.log("response", response.data.values)
+    // console.log("response", response.data.values)
     return response.data.values;
   } catch(err) {
     console.log(err)
