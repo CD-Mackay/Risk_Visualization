@@ -1,4 +1,5 @@
 import getDataSet from "@/app/api/dataset/route";
+import Map from "@/Components/Map/Map";
 import { NextPage } from "next";
 import { Inter } from "next/font/google";
 
@@ -20,6 +21,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Map />
     </main>
   );
 };
