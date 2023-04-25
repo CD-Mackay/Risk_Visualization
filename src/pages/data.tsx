@@ -28,7 +28,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {isMounted === true && <DynamicMap />}
+      {isMounted === true && <DynamicMap dataset={dataset} />}
       {/* {isMounted === true && <ShowMap />} */}
     </main>
   );
