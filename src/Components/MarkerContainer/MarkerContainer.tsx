@@ -1,13 +1,12 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { NextComponentType } from "next";
 import { Marker, Popup } from "react-leaflet";
 
 type Props = {
   dataset: Array<string>;
 };
 
-const MarkerContainer: NextComponentType<Props> = ({ dataset }) => {
+const MarkerContainer = ({ dataset }: Props) => {
 
   const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 

@@ -2,15 +2,12 @@ import getDataSet from "@/app/api/dataset/route";
 // import ShowMap from "@/components/Map/ShowMap";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
 import { useEffect, useState } from 'react';
 const ShowMap = dynamic(() => import('@/components/Map/ShowMap'), {
   ssr: false,
 })
 
-const inter = Inter({ subsets: ["latin"] });
-
-type Props = {
+interface Props {
   dataset: Array<string>
 };
 
@@ -24,14 +21,12 @@ const Data: NextPage<Props> = ({ dataset }) => {
     setIsMounted(true);
   }, []);
 
-  console.log("dataset:", dataset)
 
   const slicedData = dataset.slice(1, dataset.length);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {isMounted === true && <ShowMap dataset={slicedData} />}
-      {/* {isMounted === true && <ShowMap />} */}
+      {isMounted === true && <ShowMap dataset={slicedData } />}
     </main>
   );
 };
