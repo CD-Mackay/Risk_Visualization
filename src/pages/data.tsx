@@ -10,10 +10,6 @@ const DynamicMap = dynamic(() => import('@/components/Map/ShowMap'), {
 
 const inter = Inter({ subsets: ["latin"] });
 
-interface riskFactors {
-
-}
-
 type Props = {
   dataset: Array<string>
 };
