@@ -10,12 +10,12 @@ const MarkerContainer = ({ dataset }: MarkerContainerProps) => {
   const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 
   const handleIconColor = (input: number) => {
-    if (input < 0.3) { 
+    if (input < 0.3) {
       return L.icon({
         iconUrl:
           "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2AFA2A&chf=a,s,eeFFFFFF",
       });
-    } 
+    }
     // else if (input < 0.2) {
     //   return L.icon({
     //     iconUrl:
@@ -36,13 +36,13 @@ const MarkerContainer = ({ dataset }: MarkerContainerProps) => {
     //     iconUrl:
     //       "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|3d54e3&chf=a,s,ee00FFFF",
     //   });
-    // } 
+    // }
     else if (input < 0.6) {
       return L.icon({
         iconUrl:
           "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e6f138&chf=a,s,ee00FFFF",
       });
-    } 
+    }
     // else if (input < 0.7) {
     //   return L.icon({
     //     iconUrl:
@@ -53,7 +53,7 @@ const MarkerContainer = ({ dataset }: MarkerContainerProps) => {
     //     iconUrl:
     //       "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e3274f&chf=a,s,ee00FFFF",
     //   });
-    // } 
+    // }
     else {
       return L.icon({
         iconUrl:
@@ -70,7 +70,9 @@ const MarkerContainer = ({ dataset }: MarkerContainerProps) => {
           position={[Number(element[1]), Number(element[2])]}
           icon={handleIconColor(Number(element[4]))}
         >
-          <Popup key={index}>{element[4]}</Popup>
+          <Popup key={index}>
+            {element[3]} <br /> {element[0]}
+          </Popup>
         </Marker>
       );
     });
