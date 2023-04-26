@@ -15,6 +15,7 @@ interface Props {
 
 const Data: NextPage<Props> = ({ dataset }) => {
 
+  const [decade, setDecade ] = useState(2030);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -24,9 +25,17 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const slicedData = dataset.slice(1, dataset.length);
 
+  const handleFilterData = (array:Array<string>, number:Number) => {
+    return array.filter((element) => {
+      return Number(element[6]) === decade;
+    })
+  };
+
+  let passedData = handleFilterData(slicedData, decade);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {isMounted === true && <ShowMap dataset={slicedData } />}
+      {isMounted === true && <ShowMap dataset={passedData} />}
     </main>
   );
 };
