@@ -1,6 +1,6 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 
 interface MarkerContainerProps {
   dataset: Array<string>;
@@ -38,9 +38,9 @@ const MarkerContainer = ({ dataset }: MarkerContainerProps) => {
           position={[Number(element[1]), Number(element[2])]}
           icon={handleIconColor(Number(element[4]))}
         >
-          <Popup key={index}>
+          <Tooltip key={index}>
             {element[3]} <br /> {element[0]}
-          </Popup>
+          </Tooltip>
         </Marker>
       );
     });
