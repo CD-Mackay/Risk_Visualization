@@ -1,5 +1,6 @@
 import getDataSet from "@/app/api/dataset/route";
 // import ShowMap from "@/components/Map/ShowMap";
+import ShowTable from "@/components/Table/ShowTable";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -58,6 +59,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
         </Select>
       </FormControl>
       {isMounted === true && <ShowMap dataset={passedData} />}
+      <ShowTable dataset={passedData} headers={["headers"]}/>
     </main>
   );
 };
