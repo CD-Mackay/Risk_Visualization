@@ -17,6 +17,7 @@ interface ShowTableProps {
 const ShowTable = ({ dataset, headers }: ShowTableProps) => {
 
   const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handlePageSelect = (event:unknown, newPage: number) => {
     setPage(newPage)
@@ -55,8 +56,13 @@ const ShowTable = ({ dataset, headers }: ShowTableProps) => {
   });
 
   const displayRows = useMemo(() =>
-  rows.slice(page, page + 5)
-   ,[page, rows])
+  rows.slice(page, page + rowsPerPage)
+   ,[page, rows, rowsPerPage]);
+
+   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
 
   return (
@@ -95,13 +101,13 @@ const ShowTable = ({ dataset, headers }: ShowTableProps) => {
         </Table>
       </TableContainer>
       <TablePagination 
-      // rowsPerPageOptions={[5, 10, 25]}
+      rowsPerPageOptions={[5, 10, 25]}
       component="div"
       count={rows.length}
-      rowsPerPage={5}
+      rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handlePageSelect}
-      // onRowsPerPageChange={handleChangeRowsPerPage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );
