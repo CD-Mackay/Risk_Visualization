@@ -12,7 +12,7 @@ const ShowMap = ({ dataset }: ShowMapProps) => {
 
   const center: [number, number] = [geoData.lat, geoData.lng];
 
-  // At this point we should modify dataset to filter according to calender decade
+  console.log("Dataset:", dataset)
 
   return (
     <MapContainer
@@ -24,7 +24,8 @@ const ShowMap = ({ dataset }: ShowMapProps) => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {geoData.lat && geoData.lng && <MarkerContainer dataset={dataset} />}
+      {geoData.lat && geoData.lng && <MarkerContainer dataset={dataset} />} 
+      {/* Should be using On hover tooltips rather than click-popups */}
     </MapContainer>
   );
 };
