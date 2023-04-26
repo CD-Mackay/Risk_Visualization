@@ -12,6 +12,8 @@ const ShowMap = ({ dataset }: ShowMapProps) => {
 
   const center: [number, number] = [geoData.lat, geoData.lng];
 
+  console.log("Dataset:", dataset)
+
   // At this point we should modify dataset to filter according to calender decade
 
   return (
