@@ -32,6 +32,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
 };
 
 export async function getStaticProps() {
+  // Warning: data for page "/data" is 955 kB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
   const dataset = await getDataSet();
   return { props: { 
     dataset,
