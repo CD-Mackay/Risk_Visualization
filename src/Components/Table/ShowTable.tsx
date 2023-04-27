@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import "leaflet/dist/leaflet.css";
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
 interface ShowTableProps {
   dataset: Array<string>;
@@ -15,12 +15,11 @@ interface ShowTableProps {
 }
 
 const ShowTable = ({ dataset, headers }: ShowTableProps) => {
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handlePageSelect = (event:unknown, newPage: number) => {
-    setPage(newPage)
+  const handlePageSelect = (event: unknown, newPage: number) => {
+    setPage(newPage);
   };
 
   function createData(
@@ -55,15 +54,17 @@ const ShowTable = ({ dataset, headers }: ShowTableProps) => {
     );
   });
 
-  const displayRows = useMemo(() =>
-  rows.slice(page, page + rowsPerPage)
-   ,[page, rows, rowsPerPage]);
+  const displayRows = useMemo(
+    () => rows.slice(page, page + rowsPerPage),
+    [page, rows, rowsPerPage]
+  );
 
-   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
 
   return (
     <Paper>
@@ -100,14 +101,14 @@ const ShowTable = ({ dataset, headers }: ShowTableProps) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination 
-      rowsPerPageOptions={[5, 10, 25]}
-      component="div"
-      count={rows.length}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={handlePageSelect}
-      onRowsPerPageChange={handleChangeRowsPerPage}
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handlePageSelect}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );
