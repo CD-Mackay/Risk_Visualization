@@ -1,6 +1,6 @@
 import getDataSet from "@/app/api/dataset/route";
 // import ShowMap from "@/components/Map/ShowMap";
-import TableGrid from "@/components/TableGrid/TableGrid";
+import ShowChart from "@/components/Chart/ShowChart";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -27,6 +27,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
   }, []);
 
   const slicedData = dataset.slice(1, dataset.length);
+  const headers = dataset[0];
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
@@ -43,7 +44,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small-label" >Select Decade</InputLabel>
+        <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
         <Select
           labelId="demo-select-small-label"
           id="demo-select-small"
@@ -58,9 +59,9 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      {isMounted === true && <ShowMap dataset={passedData} />}
-      {/* <ShowTable dataset={passedData} headers={["headers"]}/> */}
-      <TableGrid dataset={passedData} />
+      <ShowChart dataset={passedData} headers={headers} />
+      {/* {isMounted === true && <ShowMap dataset={passedData} />}
+      <TableGrid dataset={passedData} /> */}
     </main>
   );
 };
