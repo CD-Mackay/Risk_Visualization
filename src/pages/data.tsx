@@ -1,6 +1,7 @@
 import getDataSet from "@/app/api/dataset/route";
 // import ShowMap from "@/components/Map/ShowMap";
 import ShowChart from "@/components/Chart/ShowChart";
+import TableGrid from "@/components/TableGrid/TableGrid";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -29,7 +30,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
   const slicedData = dataset.slice(1, dataset.length);
   const headers = dataset.slice(0, 1);
 
-  const dummyChartData = dataset.slice(2, 3)
+  const dummyChartData = dataset.slice(2, 3);
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
@@ -61,9 +62,9 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      <ShowChart dataset={dummyChartData} headers={headers}  />
-      {/* {isMounted === true && <ShowMap dataset={passedData} />}
-      <TableGrid dataset={passedData} /> */}
+      <ShowChart dataset={dummyChartData} headers={headers} />
+      {isMounted === true && <ShowMap dataset={passedData} />}
+      <TableGrid dataset={passedData} />
     </main>
   );
 };
