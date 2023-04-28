@@ -61,7 +61,6 @@ const TableGrid = ({ dataset }: TableGridProps) => {
         delete riskData[element]
       }
     }
-    console.log(riskData);
     const showRisk = Object.keys(riskData).join(",")
     return createData(
       index,
