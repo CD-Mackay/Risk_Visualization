@@ -3,9 +3,13 @@ import { Line } from "react-chartjs-2";
 
 interface ShowChartProps {
   dataset: Array<string>;
+  geoData: {
+    lat: number,
+    lng: number
+  },
 }
 
-const ShowChart = ({ dataset }: ShowChartProps) => {
+const ShowChart = ({ dataset, geoData }: ShowChartProps) => {
   Chart.register(...registerables);
 
   //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
@@ -18,7 +22,7 @@ const ShowChart = ({ dataset }: ShowChartProps) => {
     "2070": [],
   };
 
-  const chartData = dataset
+  dataset
     .map((element) => {
       return {
         assetName: element[0],
@@ -36,7 +40,6 @@ const ShowChart = ({ dataset }: ShowChartProps) => {
     final.push(element.reduce((a, b) => a + b, 0) / element.length);
   });
 
-  console.log("final", final, result);
 
   const options = {
     scales: {
@@ -61,7 +64,7 @@ const ShowChart = ({ dataset }: ShowChartProps) => {
     labels: [2030, 2040, 2050, 2060, 2070],
     datasets: [
       {
-        label: dataset[0],
+        label: `Risk Rating by decade for location ${geoData.lat} - ${geoData.lng}`,
         data: final,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
