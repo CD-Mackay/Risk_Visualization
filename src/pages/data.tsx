@@ -27,7 +27,8 @@ const Data: NextPage<Props> = ({ dataset }) => {
   }, []);
 
   const slicedData = dataset.slice(1, dataset.length);
-  const headers = dataset[0];
+  const headers = dataset.slice(0, 1);
+  console.log("headers", headers)
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
