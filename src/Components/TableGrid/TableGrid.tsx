@@ -56,6 +56,12 @@ const TableGrid = ({ dataset }: TableGridProps) => {
 
   const rows = dataset.map((element, index) => {
     const riskData = JSON.parse(element[5]);
+    for (let element in riskData) {
+      if (riskData[element] === 0.0) {
+        delete riskData[element]
+      }
+    }
+    console.log(riskData);
     const showRisk = Object.keys(riskData).join(",")
     return createData(
       index,
