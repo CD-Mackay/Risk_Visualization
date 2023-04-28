@@ -10,5 +10,16 @@
 .line-container {
   width: 100%;
   max-width: 40vw;
+  height: 100%;
 }
 
+.map-controls-container {
+  display: flex;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.individual-control-wrapper {
+  display: flex;
+  flex-direction: column;
+}

@@ -109,8 +109,8 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="upper-container">
-        <div className="map-container">
+      <div className="map-controls-container">
+            <div className="individual-control-wrapper">
           <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
             <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
             <Select
@@ -130,6 +130,66 @@ const Data: NextPage<Props> = ({ dataset }) => {
               })}
             </Select>
           </FormControl>
+          <span>Map displays risk data from 2030 by default, use dropdown to change decade</span>
+          </div>
+          <div className="individual-control-wrapper">
+          <FormControl
+              sx={{ m: 1, minWidth: 300, maxWidth: 400 }}
+              size="small"
+            >
+              <InputLabel id="demo-select-small-label">
+                Search by Asset Name
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                label="Search By Asset Name"
+                onChange={(event) => handleParamChange(event, "Asset Name")}
+                defaultValue={""}
+              >
+                {uniqNames.map((element, index) => {
+                  return (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            </div>
+            <div className="individual-control-wrapper">
+            <FormControl
+              sx={{ m: 1, minWidth: 300, maxWidth: 400 }}
+              size="small"
+            >
+              <InputLabel id="demo-select-small-label">
+                Search by Business Category
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                label="Search By Business Category"
+                onChange={(event) =>
+                  handleParamChange(event, "Business Category")
+                }
+                defaultValue={""}
+              >
+                {uniqCategory.map((element, index) => {
+                  return (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            </div>
+            <Button onClick={revertToDefaultChartParam}>
+              Revert to default
+            </Button>
+          </div>
+      <div className="upper-container">
+        <div className="map-container">
           {isMounted === true && (
             <ShowMap
               dataset={passedData}
@@ -140,54 +200,8 @@ const Data: NextPage<Props> = ({ dataset }) => {
           )}
         </div>
         <div className="line-container">
-          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
-            <InputLabel id="demo-select-small-label">
-              Search by Asset Name
-            </InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              label="Search By Asset Name"
-              onChange={(event) => handleParamChange(event, "Asset Name")}
-              defaultValue={""}
-            >
-              {uniqNames.map((element, index) => {
-                return (
-                  <MenuItem key={index} value={element}>
-                    {element}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
-            <InputLabel id="demo-select-small-label">
-              Search by Business Category
-            </InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              label="Search By Business Category"
-              onChange={(event) =>
-                handleParamChange(event, "Business Category")
-              }
-              defaultValue={""}
-            >
-              {uniqCategory.map((element, index) => {
-                return (
-                  <MenuItem key={index} value={element}>
-                    {element}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <span>
-              Note: Line chart displays risk factor by geographic location by
-              default, use dropdown to show risk rating by asset name or
-              business category
-            </span>
-          </FormControl>
-          <Button onClick={revertToDefaultChartParam}>Revert to default</Button>
+          <div className="line-controls-wrapper">
+          </div>
           <ShowChart
             dataset={
               chartParam.param === "location"
@@ -203,7 +217,17 @@ const Data: NextPage<Props> = ({ dataset }) => {
           />
         </div>
       </div>
-      <TableGrid dataset={passedData} />
+      <TableGrid dataset={
+              chartParam.param === "location"
+                ? sameLocationData
+                : chartParam.param === "Asset Name"
+                ? sameAssetData
+                : chartParam.param === "Business Category"
+                ? sameCategoryData
+                : sameLocationData
+            } 
+            chartParam={chartParam}
+            />
     </main>
   );
 };
