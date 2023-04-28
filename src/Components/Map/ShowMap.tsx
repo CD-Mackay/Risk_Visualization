@@ -9,13 +9,11 @@ interface ShowMapProps {
     lat: number,
     lng: number
   },
-  handleChangeCenter: Function
+  handleChangeCenter: Function,
 }
 
 const ShowMap = ({ dataset, geoData, center, handleChangeCenter }: ShowMapProps) => {
  
-
-  console.log(geoData)
 
   return (
     <MapContainer
