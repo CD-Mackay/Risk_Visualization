@@ -1,7 +1,7 @@
 import getDataSet from "@/app/api/dataset/route";
-// import ShowMap from "@/components/Map/ShowMap";
 import ShowChart from "@/components/Chart/ShowChart";
 import TableGrid from "@/components/TableGrid/TableGrid";
+import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import "./index.css";
 const ShowMap = dynamic(() => import("@/components/Map/ShowMap"), {
   ssr: false,
 });
@@ -16,8 +17,6 @@ const ShowMap = dynamic(() => import("@/components/Map/ShowMap"), {
 interface Props {
   dataset: Array<string>;
 }
-
-// [key: string]: number; Syntax for proptype to be used in DataTable component
 
 const Data: NextPage<Props> = ({ dataset }) => {
   const [decade, setDecade] = useState(2030);
@@ -28,12 +27,19 @@ const Data: NextPage<Props> = ({ dataset }) => {
     currentValue: JSON.stringify(geoData),
   });
 
+  const revertToDefaultChartParam = () => {
+    setChartParam({
+      param: "location",
+      currentValue: JSON.stringify(geoData),
+    });
+  };
+
   const center: [number, number] = [geoData.lat, geoData.lng];
 
   // Testing data section //
 
   let sameCategoryData = dataset.filter((element) => {
-    return element[1] === "45.44868";
+    return element[3] === chartParam.currentValue;
   });
 
   let sameLocationData = dataset.filter((element) => {
@@ -65,10 +71,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
   });
 
   const decades = [2030, 2040, 2050, 2060, 2070];
-
-
-  // NOTES: Same business asset can have multiple sectors and locations
-  //        - Same location can have multiple Business assets at multiple decades
 
   /// End testing data section
 
@@ -107,93 +109,100 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small-label">
-          Search by Business Asset
-        </InputLabel>
-        <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          // value={chartParam.param}
-          label="Search By Business Asset"
-          onChange={(event) => handleParamChange(event, "Business Asset")}
-          defaultValue={""}
-        >
-          {uniqNames.map((element, index) => {
-            return (
-              <MenuItem key={index} value={element}>
-                {element}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small-label">
-          Search by Business Category
-        </InputLabel>
-        <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          // value={chartParam.param}
-          label="Search By Business Category"
-          onChange={(event) => handleParamChange(event, "Business Category")}
-          defaultValue={""}
-        >
-          {uniqCategory.map((element, index) => {
-            return (
-              <MenuItem key={index} value={element}>
-                {element}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <span>
-          Note: Line Chart displays risk factor by geographic location, use
-          dropdown to select business
-        </span>
-      </FormControl>
-      <ShowChart
-        dataset={sameLocationData}
-        geoData={geoData}
-        chartParam={chartParam}
-      />
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
-        <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          // value={decade}
-          label="Set Decade"
-          onChange={handleDecadeChange}
-          defaultValue={""}
-        >
-          {/* {decades.map((element, index) => {
-            return <MenuItem key={index} value={element}>{element}</MenuItem>
-          })} */}
-          <MenuItem value={2030}>2030</MenuItem>
-          <MenuItem value={2040}>2040</MenuItem>
-          <MenuItem value={2050}>2050</MenuItem>
-          <MenuItem value={2060}>2060</MenuItem>
-          <MenuItem value={2070}>2070</MenuItem>
-        </Select>
-      </FormControl>
-      {isMounted === true && (
-        <ShowMap
-          dataset={
-            chartParam.param === "location"
-              ? sameLocationData
-              : chartParam.param === "Asset Name"
-              ? sameAssetData
-              : chartParam.param === "Category"
-              ? sameCategoryData
-              : sameLocationData
-          }
-          handleChangeCenter={handleChangeCenter}
-          geoData={geoData}
-          center={center}
-        />
-      )}
+      <div className="upper-container">
+        <div className="map-container">
+          <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+            <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              // value={decade}
+              label="Set Decade"
+              onChange={handleDecadeChange}
+              defaultValue={""}
+            >
+              {decades.map((element, index) => {
+                return (
+                  <MenuItem key={index} value={element}>
+                    {element}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          {isMounted === true && (
+            <ShowMap
+              dataset={passedData}
+              handleChangeCenter={handleChangeCenter}
+              geoData={geoData}
+              center={center}
+            />
+          )}
+        </div>
+        <div className="line-container">
+          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
+            <InputLabel id="demo-select-small-label">
+              Search by Asset Name
+            </InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              label="Search By Asset Name"
+              onChange={(event) => handleParamChange(event, "Asset Name")}
+              defaultValue={""}
+            >
+              {uniqNames.map((element, index) => {
+                return (
+                  <MenuItem key={index} value={element}>
+                    {element}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
+            <InputLabel id="demo-select-small-label">
+              Search by Business Category
+            </InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              label="Search By Business Category"
+              onChange={(event) =>
+                handleParamChange(event, "Business Category")
+              }
+              defaultValue={""}
+            >
+              {uniqCategory.map((element, index) => {
+                return (
+                  <MenuItem key={index} value={element}>
+                    {element}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <span>
+              Note: Line chart displays risk factor by geographic location by
+              default, use dropdown to show risk rating by asset name or
+              business category
+            </span>
+          </FormControl>
+          <Button onClick={revertToDefaultChartParam}>Revert to default</Button>
+          <ShowChart
+            dataset={
+              chartParam.param === "location"
+                ? sameLocationData
+                : chartParam.param === "Asset Name"
+                ? sameAssetData
+                : chartParam.param === "Business Category"
+                ? sameCategoryData
+                : sameLocationData
+            }
+            geoData={geoData}
+            chartParam={chartParam}
+          />
+        </div>
+      </div>
       <TableGrid dataset={passedData} />
     </main>
   );

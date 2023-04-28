@@ -1,0 +1,14 @@
+.upper-container {
+  display: flex;
+  flex-direction: row;
+}
+.map-container {
+  width: 100%;
+  max-width: 60vw;
+}
+
+.line-container {
+  width: 100%;
+  max-width: 40vw;
+}
+
