@@ -3,10 +3,9 @@ import { Line } from "react-chartjs-2";
 
 interface ShowChartProps {
   dataset: Array<string>;
-  headers: Array<string>;
 }
 
-const ShowChart = ({ dataset, headers }: ShowChartProps) => {
+const ShowChart = ({ dataset }: ShowChartProps) => {
   Chart.register(...registerables);
 
   //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
@@ -40,6 +39,12 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
   console.log("final", final, result);
 
   const options = {
+    scales: {
+      y: {
+        min: 0,
+        max: 1
+      }
+    },
     responsive: true,
     plugins: {
       legend: {

@@ -38,8 +38,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
     return Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
   });
 
-  console.log("locationData:", locationData);
-
   let assetData = dataset.filter((element) => {
     return element[0] === 'Ware PLC'
   });
@@ -99,7 +97,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      <ShowChart dataset={locationData} headers={headers} />
+      <ShowChart dataset={locationData} />
       {isMounted === true && <ShowMap dataset={passedData} handleChangeCenter={handleChangeCenter} geoData={geoData} center={center} />}
       <TableGrid dataset={passedData} />
     </main>
