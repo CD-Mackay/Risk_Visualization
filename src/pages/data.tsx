@@ -28,7 +28,8 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const slicedData = dataset.slice(1, dataset.length);
   const headers = dataset.slice(0, 1);
-  console.log("headers", headers)
+
+  const dummyChartData = dataset.slice(2, 3)
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
@@ -60,7 +61,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      <ShowChart dataset={passedData} headers={headers} />
+      <ShowChart dataset={dummyChartData} headers={headers}  />
       {/* {isMounted === true && <ShowMap dataset={passedData} />}
       <TableGrid dataset={passedData} /> */}
     </main>
