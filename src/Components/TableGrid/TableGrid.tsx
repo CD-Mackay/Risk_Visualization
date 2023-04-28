@@ -45,7 +45,7 @@ const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
       type: "number",
     },
     { field: "riskFactors", headerName: "Risk Factors", width: 600 },
-    { field: "greatestRisk", headerName: "Greatest Risk(s)", width: 400 },
+    { field: "greatestRisk", headerName: "Greatest Risk", width: 400 },
     { field: "year", headerName: "Year", width: 60, type: "number" },
   ];
 
@@ -55,24 +55,23 @@ const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
       return riskData[key];
     });
     let max = Math.max.apply(null, riskArr);
-    let greatest: any = {};
+    let greatest: any = [];
     for (let element in riskData) {
       if (riskData[element] === 0.0) {
         delete riskData[element];
       }
       if (riskData[element] === max) {
-        greatest[element] = max;
+        greatest = [element, max];
       }
     }
     const showRisk = Object.keys(riskData).join(",");
-    let renderGreatest = JSON.stringify(greatest);
     return createData(
       index,
       element[0],
       element[3],
       Number(element[4]),
       showRisk,
-      renderGreatest,
+      `${greatest[0]} : ${greatest[1]}`,
       Number(element[6])
     );
   });
