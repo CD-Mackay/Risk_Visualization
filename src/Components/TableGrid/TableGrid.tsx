@@ -11,6 +11,8 @@ const TableGrid = ({ dataset }: TableGridProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  // Implement filter functionality on reasonable columns, especially risk factors.
+
   const handlePageSelect = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -54,6 +56,7 @@ const TableGrid = ({ dataset }: TableGridProps) => {
 
   const rows = dataset.map((element, index) => {
     const riskData = JSON.parse(element[5]);
+    const showRisk = Object.keys(riskData).join(",")
     return createData(
       index,
       element[0],
@@ -61,8 +64,8 @@ const TableGrid = ({ dataset }: TableGridProps) => {
       // element[2],
       element[3],
       Number(element[4]),
-      element[5], // Convert data type to eliminate string quotes on object
-      Number(element[6])
+      showRisk, // Convert data type to eliminate string quotes on object
+      Number(element[6]) // remove number conversion
     );
   });
 
