@@ -15,7 +15,6 @@ export default async function getDataSet() {
       spreadsheetId: process.env.SPREADSHEET_ID,
       range: "sample_data",
     });
-    // Returned data > 128kb, find way to compress or remove non-essential data
     return response.data.values;
   } catch (err) {
     console.log(err);
