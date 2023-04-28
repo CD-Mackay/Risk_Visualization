@@ -11,10 +11,8 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
   const risks = JSON.parse(dataset[0][5]);
   Chart.register(...registerables);
 
-  console.log("risks", risks);
   const chartHeaders = Object.keys(risks);
   const chartData = Object.values(risks);
-  console.log("data!", chartData, chartHeaders);
   const options = {
     responsive: true,
     plugins: {
