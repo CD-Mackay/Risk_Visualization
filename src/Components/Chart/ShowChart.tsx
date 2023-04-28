@@ -11,31 +11,33 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
 
   //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
 
-  const result = {}
+  const result: { [key: string]: number[] } = {
+    "2030": [],
+    "2040": [],
+    "2050": [],
+    "2060": [],
+    "2070": [],
+  };
+
   const chartData = dataset
-  .map((element) => {
-    return {
-      assetName: element[0],
-      riskRating: Number(element[4]),
-      year: Number(element[6]),
-    };
-  })
-  .sort(
-    (element1, element2) => (element1.year > element2.year) ? 1 : (element1.year < element2.year) ? -1 : 0
-  )
+    .map((element) => {
+      return {
+        assetName: element[0],
+        riskRating: Number(element[4]),
+        year: element[6],
+      };
+    })
+    .forEach(
+      (element: { assetName: string; riskRating: number; year: string }) => {
+        result[element.year].push(element.riskRating);
+      }
+    );  
+  const final: any = [];
+  Object.values(result).forEach((element) => {
+    final.push(element.reduce((a, b) => a + b, 0) / element.length);
+  });
 
-  
-
-  // .forEach((element: {assetName: string, riskRating: number, year: number}) => {
-  //   if (!result[element.year]) {
-  //     result[element.year] = [element.riskRating]
-  //   } else {
-  //     result[element.year].push(element.riskRating)
-  //   }
-  // })
-  
-
-  console.log("sortedData", chartData);
+  console.log("final", final, result);
 
   const options = {
     responsive: true,
@@ -55,7 +57,7 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
     datasets: [
       {
         label: dataset[0],
-        data: chartData,
+        data: final,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
