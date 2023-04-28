@@ -16,8 +16,6 @@ interface ShowChartProps {
 const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
   Chart.register(...registerables);
 
-  //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
-
   const result: { [key: string]: number[] } = {
     "2030": [],
     "2040": [],

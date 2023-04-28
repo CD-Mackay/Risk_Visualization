@@ -37,8 +37,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const center: [number, number] = [geoData.lat, geoData.lng];
 
-  // Testing data section //
-
   let sameCategoryData = dataset.filter((element) => {
     return element[3] === chartParam.currentValue;
   });
@@ -73,14 +71,11 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const decades = [2030, 2040, 2050, 2060, 2070];
 
-  /// End testing data section
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const slicedData = dataset.slice(1, dataset.length);
-  const headers = dataset.slice(0, 1);
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
@@ -123,7 +118,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
               <Select
                 labelId="demo-select-small-label"
                 id="demo-select-small"
-                // value={decade}
                 label="Set Decade"
                 onChange={handleDecadeChange}
                 defaultValue={""}
@@ -242,7 +236,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
 };
 
 export async function getStaticProps() {
-  // Warning: data for page "/data" is 955 kB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
   const dataset = await getDataSet();
   return {
     props: {
