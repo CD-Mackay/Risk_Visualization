@@ -21,20 +21,26 @@ interface Props {
 
 const Data: NextPage<Props> = ({ dataset }) => {
 
+  const [decade, setDecade] = useState(2030);
+  const [isMounted, setIsMounted] = useState(false);
+  const [geoData, setGeoData] = useState({ lat: 53.51684, lng: -113.3187 });
+
+  const center: [number, number] = [geoData.lat, geoData.lng];
+
+  
   // Testing data section //
 
   const sameBusiness = dataset.filter((element) => {
-    return element[1] === "45.44868"
+    return element[1] === "45.44868";
   });
 
   console.log("Are these all Paddys pub?", sameBusiness);
 
-  // NOTES: Same business asset can have multiple sectors and locations 
-  //        - Same location can have multiple Business assets at multiple decades 
+  // NOTES: Same business asset can have multiple sectors and locations
+  //        - Same location can have multiple Business assets at multiple decades
 
   /// End testing data section
-  const [decade, setDecade] = useState(2030);
-  const [isMounted, setIsMounted] = useState(false);
+  
 
   useEffect(() => {
     setIsMounted(true);
@@ -76,7 +82,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
         </Select>
       </FormControl>
       <ShowChart dataset={dummyChartData} headers={headers} />
-      {isMounted === true && <ShowMap dataset={passedData} />}
+      {isMounted === true && <ShowMap dataset={passedData} geoData={geoData} center={center} />}
       <TableGrid dataset={passedData} />
     </main>
   );
