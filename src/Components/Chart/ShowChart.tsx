@@ -7,10 +7,23 @@ interface ShowChartProps {
     lat: number,
     lng: number
   },
+  chartParam: {
+    param: string,
+    currentValue: string
+  }
 }
 
-const ShowChart = ({ dataset, geoData }: ShowChartProps) => {
+const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
   Chart.register(...registerables);
+  console.log("chartParam:", chartParam);
+
+  for (let element of dataset) {
+    console.log({
+      "name": element[0],
+      "category": element[3],
+      "location": [element[1], element[2]]
+    })
+  };
 
   //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
 
@@ -64,7 +77,7 @@ const ShowChart = ({ dataset, geoData }: ShowChartProps) => {
     labels: [2030, 2040, 2050, 2060, 2070],
     datasets: [
       {
-        label: `Risk Rating by decade for location ${geoData.lat} - ${geoData.lng}`,
+        label: `Risk Rating by decade for ${chartParam.param} ${chartParam.currentValue}`,
         data: final,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
