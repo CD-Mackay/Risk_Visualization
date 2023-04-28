@@ -20,6 +20,19 @@ interface Props {
 // [key: string]: number; Syntax for proptype to be used in DataTable component
 
 const Data: NextPage<Props> = ({ dataset }) => {
+
+  // Testing data section //
+
+  const sameBusiness = dataset.filter((element) => {
+    return element[1] === "45.44868"
+  });
+
+  console.log("Are these all Paddys pub?", sameBusiness);
+
+  // NOTES: Same business asset can have multiple sectors and locations 
+  //        - Same location can have multiple Business assets at multiple decades 
+
+  /// End testing data section
   const [decade, setDecade] = useState(2030);
   const [isMounted, setIsMounted] = useState(false);
 
