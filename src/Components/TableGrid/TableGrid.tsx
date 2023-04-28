@@ -53,6 +53,7 @@ const TableGrid = ({ dataset }: TableGridProps) => {
   ];
 
   const rows = dataset.map((element, index) => {
+    const riskData = JSON.parse(element[5]);
     return createData(
       index,
       element[0],
