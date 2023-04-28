@@ -40,9 +40,7 @@ const TableGrid = ({ dataset }: TableGridProps) => {
   }
 
   const columns: GridColDef[] = [
-    { field: "assetName", headerName: "Asset Name", width: 250 },
-    // {field: 'latitude', headerName: 'latitude', width: 100},
-    // {field: 'longtitude', headerName: 'longtitude', width: 120},
+    { field: "assetName", headerName: "Asset Name", width: 160 },
     { field: "businessCategory", headerName: "Sector", width: 120 },
     {
       field: "riskRating",

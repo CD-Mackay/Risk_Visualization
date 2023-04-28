@@ -4,7 +4,7 @@ import { Marker, Tooltip } from "react-leaflet";
 
 interface MarkerContainerProps {
   dataset: Array<string>;
-  handleChangeCenter: Function
+  handleChangeCenter: Function,
 }
 
 const MarkerContainer = ({ dataset, handleChangeCenter }: MarkerContainerProps) => {

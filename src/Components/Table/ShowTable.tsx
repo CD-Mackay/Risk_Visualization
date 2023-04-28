@@ -69,7 +69,7 @@ const ShowTable = ({ dataset, headers }: ShowTableProps) => {
   return (
     <Paper>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table sx={{ minWidth: 500, maxWidth: 550 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
               <TableCell align="right">Asset Name</TableCell>
