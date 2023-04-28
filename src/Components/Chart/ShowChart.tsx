@@ -1,18 +1,42 @@
 import { Chart, registerables } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-
 interface ShowChartProps {
   dataset: Array<string>;
   headers: Array<string>;
 }
 
 const ShowChart = ({ dataset, headers }: ShowChartProps) => {
-  const risks = JSON.parse(dataset[0][5]);
   Chart.register(...registerables);
 
-  const chartHeaders = Object.keys(risks);
-  const chartData = Object.values(risks);
+  //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
+
+  const result = {}
+  const chartData = dataset
+  .map((element) => {
+    return {
+      assetName: element[0],
+      riskRating: Number(element[4]),
+      year: Number(element[6]),
+    };
+  })
+  .sort(
+    (element1, element2) => (element1.year > element2.year) ? 1 : (element1.year < element2.year) ? -1 : 0
+  )
+
+  
+
+  // .forEach((element: {assetName: string, riskRating: number, year: number}) => {
+  //   if (!result[element.year]) {
+  //     result[element.year] = [element.riskRating]
+  //   } else {
+  //     result[element.year].push(element.riskRating)
+  //   }
+  // })
+  
+
+  console.log("sortedData", chartData);
+
   const options = {
     responsive: true,
     plugins: {
@@ -27,7 +51,7 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
   };
 
   const data = {
-    labels: chartHeaders,
+    labels: [2030, 2040, 2050, 2060, 2070],
     datasets: [
       {
         label: dataset[0],

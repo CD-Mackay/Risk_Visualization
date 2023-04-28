@@ -30,11 +30,22 @@ const Data: NextPage<Props> = ({ dataset }) => {
   
   // Testing data section //
 
-  const sameBusiness = dataset.filter((element) => {
+  let sameBusiness = dataset.filter((element) => {
     return element[1] === "45.44868";
   });
 
-  console.log("Are these all Paddys pub?", sameBusiness);
+  let locationData = dataset.filter((element) => {
+    return Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
+  });
+
+  console.log("locationData:", locationData);
+
+  let assetData = dataset.filter((element) => {
+    return element[0] === 'Ware PLC'
+  });
+
+  // console.log("assetData:", assetData);
+
 
   // NOTES: Same business asset can have multiple sectors and locations
   //        - Same location can have multiple Business assets at multiple decades
@@ -88,7 +99,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      <ShowChart dataset={dummyChartData} headers={headers} />
+      <ShowChart dataset={locationData} headers={headers} />
       {isMounted === true && <ShowMap dataset={passedData} handleChangeCenter={handleChangeCenter} geoData={geoData} center={center} />}
       <TableGrid dataset={passedData} />
     </main>
