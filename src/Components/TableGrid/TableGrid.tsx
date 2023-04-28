@@ -47,9 +47,11 @@ const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
 
   const rows = dataset.map((element, index) => {
     const riskData = JSON.parse(element[5]);
-    var riskArr = Object.keys( riskData ).map(function ( key ) { return riskData[key]; });
+    var riskArr = Object.keys(riskData).map(function (key) {
+      return riskData[key];
+    });
     let max = Math.max.apply(null, riskArr);
-    let greatest: any = {}
+    let greatest: any = {};
     for (let element in riskData) {
       if (riskData[element] === 0.0) {
         delete riskData[element];

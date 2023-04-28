@@ -6,15 +6,18 @@ interface ShowMapProps {
   dataset: Array<string>;
   center: [number, number];
   geoData: {
-    lat: number,
-    lng: number
-  },
-  handleChangeCenter: Function,
+    lat: number;
+    lng: number;
+  };
+  handleChangeCenter: Function;
 }
 
-const ShowMap = ({ dataset, geoData, center, handleChangeCenter }: ShowMapProps) => {
- 
-
+const ShowMap = ({
+  dataset,
+  geoData,
+  center,
+  handleChangeCenter,
+}: ShowMapProps) => {
   return (
     <MapContainer
       center={center}
@@ -25,7 +28,12 @@ const ShowMap = ({ dataset, geoData, center, handleChangeCenter }: ShowMapProps)
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {geoData.lat !== undefined && geoData.lng !== undefined && <MarkerContainer handleChangeCenter={handleChangeCenter} dataset={dataset} />} 
+      {geoData.lat !== undefined && geoData.lng !== undefined && (
+        <MarkerContainer
+          handleChangeCenter={handleChangeCenter}
+          dataset={dataset}
+        />
+      )}
       {/* Should be using On hover tooltips rather than click-popups */}
     </MapContainer>
   );

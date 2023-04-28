@@ -4,13 +4,13 @@ import { Line } from "react-chartjs-2";
 interface ShowChartProps {
   dataset: Array<string>;
   geoData: {
-    lat: number,
-    lng: number
-  },
+    lat: number;
+    lng: number;
+  };
   chartParam: {
-    param: string,
-    currentValue: string
-  }
+    param: string;
+    currentValue: string;
+  };
 }
 
 const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
@@ -19,11 +19,11 @@ const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
 
   for (let element of dataset) {
     console.log({
-      "name": element[0],
-      "category": element[3],
-      "location": [element[1], element[2]]
-    })
-  };
+      name: element[0],
+      category: element[3],
+      location: [element[1], element[2]],
+    });
+  }
 
   //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
 
@@ -47,19 +47,18 @@ const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
       (element: { assetName: string; riskRating: number; year: string }) => {
         result[element.year].push(element.riskRating);
       }
-    );  
+    );
   const final: any = [];
   Object.values(result).forEach((element) => {
     final.push(element.reduce((a, b) => a + b, 0) / element.length);
   });
 
-
   const options = {
     scales: {
       y: {
         min: 0,
-        max: 1
-      }
+        max: 1,
+      },
     },
     responsive: true,
     plugins: {
