@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import "./index.css";
 const ShowMap = dynamic(() => import("@/components/Map/ShowMap"), {
@@ -108,122 +109,135 @@ const Data: NextPage<Props> = ({ dataset }) => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="map-controls-container">
-        <div className="individual-control-wrapper">
-          <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-            <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              // value={decade}
-              label="Set Decade"
-              onChange={handleDecadeChange}
-              defaultValue={""}
+    <div>
+      <Head>
+        <title>Climate Change Risk Visualizer</title>
+      </Head>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="map-controls-container">
+          <div className="individual-control-wrapper">
+            <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+              <InputLabel id="demo-select-small-label">
+                Select Decade
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                // value={decade}
+                label="Set Decade"
+                onChange={handleDecadeChange}
+                defaultValue={""}
+              >
+                {decades.map((element, index) => {
+                  return (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <span>
+              Map displays risk data from 2030 by default, use dropdown to
+              change decade
+            </span>
+          </div>
+          <div className="individual-control-wrapper">
+            <FormControl
+              sx={{ m: 1, minWidth: 300, maxWidth: 400 }}
+              size="small"
             >
-              {decades.map((element, index) => {
-                return (
-                  <MenuItem key={index} value={element}>
-                    {element}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <span>
-            Map displays risk data from 2030 by default, use dropdown to change
-            decade
-          </span>
-        </div>
-        <div className="individual-control-wrapper">
-          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
-            <InputLabel id="demo-select-small-label">
-              Search by Asset Name
-            </InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              label="Search By Asset Name"
-              onChange={(event) => handleParamChange(event, "Asset Name")}
-              defaultValue={""}
+              <InputLabel id="demo-select-small-label">
+                Search by Asset Name
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                label="Search By Asset Name"
+                onChange={(event) => handleParamChange(event, "Asset Name")}
+                defaultValue={""}
+              >
+                {uniqNames.map((element, index) => {
+                  return (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+          <div className="individual-control-wrapper">
+            <FormControl
+              sx={{ m: 1, minWidth: 300, maxWidth: 400 }}
+              size="small"
             >
-              {uniqNames.map((element, index) => {
-                return (
-                  <MenuItem key={index} value={element}>
-                    {element}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+              <InputLabel id="demo-select-small-label">
+                Search by Business Category
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                label="Search By Business Category"
+                onChange={(event) =>
+                  handleParamChange(event, "Business Category")
+                }
+                defaultValue={""}
+              >
+                {uniqCategory.map((element, index) => {
+                  return (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+          <Button onClick={revertToDefaultChartParam}>Revert to default</Button>
         </div>
-        <div className="individual-control-wrapper">
-          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 400 }} size="small">
-            <InputLabel id="demo-select-small-label">
-              Search by Business Category
-            </InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              label="Search By Business Category"
-              onChange={(event) =>
-                handleParamChange(event, "Business Category")
+        <div className="upper-container">
+          <div className="map-container">
+            {isMounted === true && (
+              <ShowMap
+                dataset={passedData}
+                handleChangeCenter={handleChangeCenter}
+                geoData={geoData}
+                center={center}
+              />
+            )}
+          </div>
+          <div className="line-container">
+            <div className="line-controls-wrapper"></div>
+            <ShowChart
+              dataset={
+                chartParam.param === "location"
+                  ? sameLocationData
+                  : chartParam.param === "Asset Name"
+                  ? sameAssetData
+                  : chartParam.param === "Business Category"
+                  ? sameCategoryData
+                  : sameLocationData
               }
-              defaultValue={""}
-            >
-              {uniqCategory.map((element, index) => {
-                return (
-                  <MenuItem key={index} value={element}>
-                    {element}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </div>
-        <Button onClick={revertToDefaultChartParam}>Revert to default</Button>
-      </div>
-      <div className="upper-container">
-        <div className="map-container">
-          {isMounted === true && (
-            <ShowMap
-              dataset={passedData}
-              handleChangeCenter={handleChangeCenter}
               geoData={geoData}
-              center={center}
+              chartParam={chartParam}
             />
-          )}
+          </div>
         </div>
-        <div className="line-container">
-          <div className="line-controls-wrapper"></div>
-          <ShowChart
-            dataset={
-              chartParam.param === "location"
-                ? sameLocationData
-                : chartParam.param === "Asset Name"
-                ? sameAssetData
-                : chartParam.param === "Business Category"
-                ? sameCategoryData
-                : sameLocationData
-            }
-            geoData={geoData}
-            chartParam={chartParam}
-          />
-        </div>
-      </div>
-      <TableGrid
-        dataset={
-          chartParam.param === "location"
-            ? sameLocationData
-            : chartParam.param === "Asset Name"
-            ? sameAssetData
-            : chartParam.param === "Business Category"
-            ? sameCategoryData
-            : sameLocationData
-        }
-        chartParam={chartParam}
-      />
-    </main>
+        <TableGrid
+          dataset={
+            chartParam.param === "location"
+              ? sameLocationData
+              : chartParam.param === "Asset Name"
+              ? sameAssetData
+              : chartParam.param === "Business Category"
+              ? sameCategoryData
+              : sameLocationData
+          }
+          chartParam={chartParam}
+        />
+      </main>
+    </div>
   );
 };
 
