@@ -63,6 +63,13 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   let passedData = handleFilterData(slicedData, decade);
 
+  const handleChangeCenter = (lat:number, lng:number) => {
+    setGeoData({
+      lat: lat,
+      lng: lng
+    })
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -82,7 +89,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
         </Select>
       </FormControl>
       <ShowChart dataset={dummyChartData} headers={headers} />
-      {isMounted === true && <ShowMap dataset={passedData} geoData={geoData} center={center} />}
+      {isMounted === true && <ShowMap dataset={passedData} handleChangeCenter={handleChangeCenter} geoData={geoData} center={center} />}
       <TableGrid dataset={passedData} />
     </main>
   );

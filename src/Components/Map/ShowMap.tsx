@@ -8,11 +8,11 @@ interface ShowMapProps {
   geoData: {
     lat: number,
     lng: number
-  }
-
+  },
+  handleChangeCenter: Function
 }
 
-const ShowMap = ({ dataset, geoData, center }: ShowMapProps) => {
+const ShowMap = ({ dataset, geoData, center, handleChangeCenter }: ShowMapProps) => {
  
 
   console.log(geoData)
@@ -27,7 +27,7 @@ const ShowMap = ({ dataset, geoData, center }: ShowMapProps) => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {geoData.lat !== undefined && geoData.lng !== undefined && <MarkerContainer dataset={dataset} />} 
+      {geoData.lat !== undefined && geoData.lng !== undefined && <MarkerContainer handleChangeCenter={handleChangeCenter} dataset={dataset} />} 
       {/* Should be using On hover tooltips rather than click-popups */}
     </MapContainer>
   );
