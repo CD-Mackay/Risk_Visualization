@@ -20,21 +20,45 @@ interface Props {
 // [key: string]: number; Syntax for proptype to be used in DataTable component
 
 const Data: NextPage<Props> = ({ dataset }) => {
+  const [decade, setDecade] = useState(2030);
+  const [isMounted, setIsMounted] = useState(false);
+  const [geoData, setGeoData] = useState({ lat: 53.51684, lng: -113.3187 });
+  const [chartParam, setChartParam] = useState({
+    param: "location",
+    currentValue: geoData,
+  });
+
+  const center: [number, number] = [geoData.lat, geoData.lng];
 
   // Testing data section //
 
-  const sameBusiness = dataset.filter((element) => {
-    return element[1] === "45.44868"
+  let sameBusiness = dataset.filter((element) => {
+    return element[1] === "45.44868";
   });
 
-  console.log("Are these all Paddys pub?", sameBusiness);
+  let locationData = dataset.filter((element) => {
+    return (
+      Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
+    );
+  }); // Currently passing lat, lng data t chart label
 
-  // NOTES: Same business asset can have multiple sectors and locations 
-  //        - Same location can have multiple Business assets at multiple decades 
+  let assetData = dataset.filter((element) => {
+    return element[0] === "Ware PLC";
+  }); // Add business name to props for showchart, state/filter function to handle proper chart labelling
+
+  let bus: Array<string> = [];
+  dataset.map((element) => {
+    bus.push(element[0]);
+  });
+
+  let uniqNames = bus.filter(function (item, pos) {
+    return bus.indexOf(item) == pos;
+  });
+
+  // NOTES: Same business asset can have multiple sectors and locations
+  //        - Same location can have multiple Business assets at multiple decades
 
   /// End testing data section
-  const [decade, setDecade] = useState(2030);
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -55,10 +79,49 @@ const Data: NextPage<Props> = ({ dataset }) => {
     setDecade(event.target.value);
   };
 
+  const handleParamChange = (event: any) => {
+    setChartParam({
+      param: "Asset Name",
+      currentValue: event.target.value,
+    });
+  };
+
   let passedData = handleFilterData(slicedData, decade);
+
+  const handleChangeCenter = (lat: number, lng: number) => {
+    setGeoData({
+      lat: lat,
+      lng: lng,
+    });
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-select-small-label">
+          Search by Business Asset
+        </InputLabel>
+        <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
+          value={decade}
+          label="Search By Business Asset"
+          onChange={handleParamChange}
+        >
+          {uniqNames.map((element, index) => {
+            return (
+              <MenuItem key={index} value={element}>
+                {element}
+              </MenuItem>
+            );
+          })}
+        </Select>
+        <span>
+          Note: Line Chart displays risk factor by geographic location, use
+          dropdown to select business
+        </span>
+      </FormControl>
+      <ShowChart dataset={locationData} geoData={geoData} />
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
         <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
         <Select
@@ -75,8 +138,14 @@ const Data: NextPage<Props> = ({ dataset }) => {
           <MenuItem value={2070}>2070</MenuItem>
         </Select>
       </FormControl>
-      <ShowChart dataset={dummyChartData} headers={headers} />
-      {isMounted === true && <ShowMap dataset={passedData} />}
+      {isMounted === true && (
+        <ShowMap
+          dataset={passedData}
+          handleChangeCenter={handleChangeCenter}
+          geoData={geoData}
+          center={center}
+        />
+      )}
       <TableGrid dataset={passedData} />
     </main>
   );

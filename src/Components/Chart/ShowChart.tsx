@@ -1,19 +1,53 @@
 import { Chart, registerables } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-
 interface ShowChartProps {
   dataset: Array<string>;
-  headers: Array<string>;
+  geoData: {
+    lat: number,
+    lng: number
+  },
 }
 
-const ShowChart = ({ dataset, headers }: ShowChartProps) => {
-  const risks = JSON.parse(dataset[0][5]);
+const ShowChart = ({ dataset, geoData }: ShowChartProps) => {
   Chart.register(...registerables);
 
-  const chartHeaders = Object.keys(risks);
-  const chartData = Object.values(risks);
+  //Implement a line graph component that displays the Risk Rating over time (Year) for a selected location (Lat, Long)
+
+  const result: { [key: string]: number[] } = {
+    "2030": [],
+    "2040": [],
+    "2050": [],
+    "2060": [],
+    "2070": [],
+  };
+
+  dataset
+    .map((element) => {
+      return {
+        assetName: element[0],
+        riskRating: Number(element[4]),
+        year: element[6],
+      };
+    })
+    .forEach(
+      (element: { assetName: string; riskRating: number; year: string }) => {
+        result[element.year].push(element.riskRating);
+      }
+    );  
+  const final: any = [];
+  Object.values(result).forEach((element) => {
+    final.push(element.reduce((a, b) => a + b, 0) / element.length);
+  });
+
+
   const options = {
+    scales: {
+      y: {
+        min: 0,
+        max: 1
+      }
+    },
     responsive: true,
     plugins: {
       legend: {
@@ -27,11 +61,11 @@ const ShowChart = ({ dataset, headers }: ShowChartProps) => {
   };
 
   const data = {
-    labels: chartHeaders,
+    labels: [2030, 2040, 2050, 2060, 2070],
     datasets: [
       {
-        label: dataset[0],
-        data: chartData,
+        label: `Risk Rating by decade for location ${geoData.lat} - ${geoData.lng}`,
+        data: final,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
