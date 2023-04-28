@@ -25,26 +25,26 @@ const Data: NextPage<Props> = ({ dataset }) => {
   const [geoData, setGeoData] = useState({ lat: 53.51684, lng: -113.3187 });
   const [chartParam, setChartParam] = useState({
     param: "location",
-    currentValue: geoData,
+    currentValue: JSON.stringify(geoData),
   });
 
   const center: [number, number] = [geoData.lat, geoData.lng];
 
   // Testing data section //
 
-  let sameBusiness = dataset.filter((element) => {
+  let sameCategoryData = dataset.filter((element) => {
     return element[1] === "45.44868";
   });
 
-  let locationData = dataset.filter((element) => {
+  let sameLocationData = dataset.filter((element) => {
     return (
       Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
     );
-  }); // Currently passing lat, lng data t chart label
+  });
 
-  let assetData = dataset.filter((element) => {
-    return element[0] === "Ware PLC";
-  }); // Add business name to props for showchart, state/filter function to handle proper chart labelling
+  let sameAssetData = dataset.filter((element) => {
+    return element[0] === chartParam.currentValue;
+  });
 
   let bus: Array<string> = [];
   dataset.map((element) => {
@@ -54,6 +54,18 @@ const Data: NextPage<Props> = ({ dataset }) => {
   let uniqNames = bus.filter(function (item, pos) {
     return bus.indexOf(item) == pos;
   });
+
+  let cat: Array<string> = [];
+  dataset.map((element) => {
+    cat.push(element[3]);
+  });
+
+  let uniqCategory = cat.filter(function (item, pos) {
+    return cat.indexOf(item) == pos;
+  });
+
+  const decades = [2030, 2040, 2050, 2060, 2070];
+
 
   // NOTES: Same business asset can have multiple sectors and locations
   //        - Same location can have multiple Business assets at multiple decades
@@ -67,8 +79,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
   const slicedData = dataset.slice(1, dataset.length);
   const headers = dataset.slice(0, 1);
 
-  const dummyChartData = dataset.slice(2, 3);
-
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
       return Number(element[6]) === decade;
@@ -79,9 +89,9 @@ const Data: NextPage<Props> = ({ dataset }) => {
     setDecade(event.target.value);
   };
 
-  const handleParamChange = (event: any) => {
+  const handleParamChange = (event: any, input: string) => {
     setChartParam({
-      param: "Asset Name",
+      param: input,
       currentValue: event.target.value,
     });
   };
@@ -104,11 +114,33 @@ const Data: NextPage<Props> = ({ dataset }) => {
         <Select
           labelId="demo-select-small-label"
           id="demo-select-small"
-          value={decade}
+          // value={chartParam.param}
           label="Search By Business Asset"
-          onChange={handleParamChange}
+          onChange={(event) => handleParamChange(event, "Business Asset")}
+          defaultValue={""}
         >
           {uniqNames.map((element, index) => {
+            return (
+              <MenuItem key={index} value={element}>
+                {element}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-select-small-label">
+          Search by Business Category
+        </InputLabel>
+        <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
+          // value={chartParam.param}
+          label="Search By Business Category"
+          onChange={(event) => handleParamChange(event, "Business Category")}
+          defaultValue={""}
+        >
+          {uniqCategory.map((element, index) => {
             return (
               <MenuItem key={index} value={element}>
                 {element}
@@ -121,16 +153,24 @@ const Data: NextPage<Props> = ({ dataset }) => {
           dropdown to select business
         </span>
       </FormControl>
-      <ShowChart dataset={locationData} geoData={geoData} />
+      <ShowChart
+        dataset={sameLocationData}
+        geoData={geoData}
+        chartParam={chartParam}
+      />
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
         <InputLabel id="demo-select-small-label">Select Decade</InputLabel>
         <Select
           labelId="demo-select-small-label"
           id="demo-select-small"
-          value={decade}
+          // value={decade}
           label="Set Decade"
           onChange={handleDecadeChange}
+          defaultValue={""}
         >
+          {/* {decades.map((element, index) => {
+            return <MenuItem key={index} value={element}>{element}</MenuItem>
+          })} */}
           <MenuItem value={2030}>2030</MenuItem>
           <MenuItem value={2040}>2040</MenuItem>
           <MenuItem value={2050}>2050</MenuItem>
@@ -140,7 +180,15 @@ const Data: NextPage<Props> = ({ dataset }) => {
       </FormControl>
       {isMounted === true && (
         <ShowMap
-          dataset={passedData}
+          dataset={
+            chartParam.param === "location"
+              ? sameLocationData
+              : chartParam.param === "Asset Name"
+              ? sameAssetData
+              : chartParam.param === "Category"
+              ? sameCategoryData
+              : sameLocationData
+          }
           handleChangeCenter={handleChangeCenter}
           geoData={geoData}
           center={center}
