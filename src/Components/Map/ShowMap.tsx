@@ -10,6 +10,7 @@ interface ShowMapProps {
     lng: number;
   };
   handleChangeCenter: Function;
+  handleChangeGeoData: Function;
 }
 
 const ShowMap = ({
@@ -17,6 +18,7 @@ const ShowMap = ({
   geoData,
   center,
   handleChangeCenter,
+  handleChangeGeoData,
 }: ShowMapProps) => {
   return (
     <MapContainer
@@ -32,6 +34,7 @@ const ShowMap = ({
         <MarkerContainer
           handleChangeCenter={handleChangeCenter}
           dataset={dataset}
+          handleChangeGeoData={handleChangeGeoData}
         />
       )}
       {/* Should be using On hover tooltips rather than click-popups */}

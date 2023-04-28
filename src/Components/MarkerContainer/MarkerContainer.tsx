@@ -5,11 +5,13 @@ import { Marker, Tooltip } from "react-leaflet";
 interface MarkerContainerProps {
   dataset: Array<string>;
   handleChangeCenter: Function;
+  handleChangeGeoData: Function;
 }
 
 const MarkerContainer = ({
   dataset,
   handleChangeCenter,
+  handleChangeGeoData
 }: MarkerContainerProps) => {
   const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 
@@ -39,6 +41,7 @@ const MarkerContainer = ({
           eventHandlers={{
             click: (e) => {
               handleChangeCenter(Number(element[1]), Number(element[2]));
+              handleChangeGeoData(Number(element[1]), Number(element[2]))
             },
           }}
         >

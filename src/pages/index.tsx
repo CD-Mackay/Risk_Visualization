@@ -41,15 +41,35 @@ const Data: NextPage<Props> = ({ dataset }) => {
     return element[3] === chartParam.currentValue;
   });
 
+  const makeSameCatData = () => {
+    return dataset.filter((element) => {
+      return element[3] === chartParam.currentValue;
+    });
+  };
+
   let sameLocationData = dataset.filter((element) => {
     return (
       Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
     );
   });
 
+  const makeSameLocationData = () => {
+    return dataset.filter((element) => {
+      return (
+        Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
+      );
+    });
+  };
+
   let sameAssetData = dataset.filter((element) => {
     return element[0] === chartParam.currentValue;
   });
+
+  const makeSameAssetData = () => {
+    return dataset.filter((element) => {
+      return element[0] === chartParam.currentValue;
+    });
+  };
 
   let bus: Array<string> = [];
   dataset.map((element) => {
@@ -94,7 +114,23 @@ const Data: NextPage<Props> = ({ dataset }) => {
     });
   };
 
+  const handleChangeGeoData = (num1: number, num2: number) => {
+    setGeoData({
+      lat: num1,
+      lng: num2
+    })
+  }
+
   let passedData = handleFilterData(slicedData, decade);
+
+  let chartData =
+    chartParam.param === "location"
+      ? makeSameLocationData()
+      : chartParam.param === "Asset Name"
+      ? makeSameAssetData()
+      : chartParam.param === "Business Category"
+      ? makeSameCatData()
+      : makeSameLocationData();
 
   const handleChangeCenter = (lat: number, lng: number) => {
     setGeoData({
@@ -198,37 +234,41 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 handleChangeCenter={handleChangeCenter}
                 geoData={geoData}
                 center={center}
+                handleChangeGeoData={handleChangeGeoData}
               />
             )}
           </div>
           <div className="line-container">
             <div className="line-controls-wrapper"></div>
             <ShowChart
-              dataset={
-                chartParam.param === "location"
-                  ? sameLocationData
-                  : chartParam.param === "Asset Name"
-                  ? sameAssetData
-                  : chartParam.param === "Business Category"
-                  ? sameCategoryData
-                  : sameLocationData
-              }
+              // dataset={
+              //   chartParam.param === "location"
+              //     ? sameLocationData
+              //     : chartParam.param === "Asset Name"
+              //     ? sameAssetData
+              //     : chartParam.param === "Business Category"
+              //     ? sameCategoryData
+              //     : sameLocationData
+              // }
+              dataset={chartData}
               geoData={geoData}
               chartParam={chartParam}
             />
           </div>
         </div>
         <TableGrid
-          dataset={
-            chartParam.param === "location"
-              ? sameLocationData
-              : chartParam.param === "Asset Name"
-              ? sameAssetData
-              : chartParam.param === "Business Category"
-              ? sameCategoryData
-              : sameLocationData
-          }
+          // dataset={
+          //   chartParam.param === "location"
+          //     ? sameLocationData
+          //     : chartParam.param === "Asset Name"
+          //     ? sameAssetData
+          //     : chartParam.param === "Business Category"
+          //     ? sameCategoryData
+          //     : sameLocationData
+          // }
+          dataset={chartData}
           chartParam={chartParam}
+          geoData={geoData}
         />
       </main>
     </div>

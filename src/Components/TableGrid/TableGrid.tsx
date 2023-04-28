@@ -8,16 +8,13 @@ interface TableGridProps {
     param: string;
     currentValue: string;
   };
+  geoData: {
+    lat: number;
+    lng: number;
+  };
 }
 
-const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
-  const showLocation = () => {
-    if (chartParam.param === "location") {
-      return JSON.parse(chartParam.currentValue);
-    }
-  };
-  const location = showLocation();
-
+const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
   function createData(
     id: number,
     assetName: string,
@@ -86,7 +83,7 @@ const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
         Risk Data by {chartParam.param} for{" "}
         {chartParam.param !== "location"
           ? chartParam.currentValue
-          : `latitude: ${location.lat} / longtitude: ${location.lng}`}
+          : `latitude: ${geoData.lat} / longtitude: ${geoData.lng}`}
       </h3>
       <DataGrid
         rows={rows}
