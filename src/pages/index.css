@@ -5,6 +5,7 @@
 .map-container {
   width: 100%;
   max-width: 50vw;
+  align-self: flex-end;
 }
 
 .line-container {
