@@ -37,21 +37,25 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const center: [number, number] = [geoData.lat, geoData.lng];
 
-  // Testing data section //
+  const makeSameCatData = () => {
+    return dataset.filter((element) => {
+      return element[3] === chartParam.currentValue;
+    });
+  };
 
-  let sameCategoryData = dataset.filter((element) => {
-    return element[3] === chartParam.currentValue;
-  });
+  const makeSameLocationData = () => {
+    return dataset.filter((element) => {
+      return (
+        Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
+      );
+    });
+  };
 
-  let sameLocationData = dataset.filter((element) => {
-    return (
-      Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
-    );
-  });
-
-  let sameAssetData = dataset.filter((element) => {
-    return element[0] === chartParam.currentValue;
-  });
+  const makeSameAssetData = () => {
+    return dataset.filter((element) => {
+      return element[0] === chartParam.currentValue;
+    });
+  };
 
   let bus: Array<string> = [];
   dataset.map((element) => {
@@ -73,14 +77,11 @@ const Data: NextPage<Props> = ({ dataset }) => {
 
   const decades = [2030, 2040, 2050, 2060, 2070];
 
-  /// End testing data section
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const slicedData = dataset.slice(1, dataset.length);
-  const headers = dataset.slice(0, 1);
 
   const handleFilterData = (array: Array<string>, number: Number) => {
     return array.filter((element) => {
@@ -99,7 +100,23 @@ const Data: NextPage<Props> = ({ dataset }) => {
     });
   };
 
+  const handleChangeGeoData = (num1: number, num2: number) => {
+    setGeoData({
+      lat: num1,
+      lng: num2,
+    });
+  };
+
   let passedData = handleFilterData(slicedData, decade);
+
+  let chartData =
+    chartParam.param === "location"
+      ? makeSameLocationData()
+      : chartParam.param === "Asset Name"
+      ? makeSameAssetData()
+      : chartParam.param === "Business Category"
+      ? makeSameCatData()
+      : makeSameLocationData();
 
   const handleChangeCenter = (lat: number, lng: number) => {
     setGeoData({
@@ -114,6 +131,8 @@ const Data: NextPage<Props> = ({ dataset }) => {
         <title>Climate Change Risk Visualizer</title>
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="header-container">
+          <h1>Climate Risk Visualizer</h1>
         <div className="map-controls-container">
           <div className="individual-control-wrapper">
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
@@ -121,9 +140,9 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 Select Decade
               </InputLabel>
               <Select
+                className="select"
                 labelId="demo-select-small-label"
                 id="demo-select-small"
-                // value={decade}
                 label="Set Decade"
                 onChange={handleDecadeChange}
                 defaultValue={""}
@@ -137,10 +156,9 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 })}
               </Select>
             </FormControl>
-            <span>
-              Map displays risk data from 2030 by default, use dropdown to
-              change decade
-            </span>
+            <Button onClick={revertToDefaultChartParam}>
+              Revert to default
+            </Button>
           </div>
           <div className="individual-control-wrapper">
             <FormControl
@@ -151,6 +169,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 Search by Asset Name
               </InputLabel>
               <Select
+                className="select"
                 labelId="demo-select-small-label"
                 id="demo-select-small"
                 label="Search By Asset Name"
@@ -169,13 +188,14 @@ const Data: NextPage<Props> = ({ dataset }) => {
           </div>
           <div className="individual-control-wrapper">
             <FormControl
-              sx={{ m: 1, minWidth: 300, maxWidth: 400 }}
+              sx={{ m: 1, minWidth: 300, maxWidth: 508 }}
               size="small"
             >
               <InputLabel id="demo-select-small-label">
                 Search by Business Category
               </InputLabel>
               <Select
+                className="select"
                 labelId="demo-select-small-label"
                 id="demo-select-small"
                 label="Search By Business Category"
@@ -193,8 +213,12 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 })}
               </Select>
             </FormControl>
+            <span>
+              *Map displays risk data from 2030 by default, use dropdown to
+              change decade
+            </span>
           </div>
-          <Button onClick={revertToDefaultChartParam}>Revert to default</Button>
+        </div>
         </div>
         <div className="upper-container">
           <div className="map-container">
@@ -204,37 +228,23 @@ const Data: NextPage<Props> = ({ dataset }) => {
                 handleChangeCenter={handleChangeCenter}
                 geoData={geoData}
                 center={center}
+                handleChangeGeoData={handleChangeGeoData}
               />
             )}
           </div>
           <div className="line-container">
             <div className="line-controls-wrapper"></div>
             <ShowChart
-              dataset={
-                chartParam.param === "location"
-                  ? sameLocationData
-                  : chartParam.param === "Asset Name"
-                  ? sameAssetData
-                  : chartParam.param === "Business Category"
-                  ? sameCategoryData
-                  : sameLocationData
-              }
+              dataset={chartData}
               geoData={geoData}
               chartParam={chartParam}
             />
           </div>
         </div>
         <TableGrid
-          dataset={
-            chartParam.param === "location"
-              ? sameLocationData
-              : chartParam.param === "Asset Name"
-              ? sameAssetData
-              : chartParam.param === "Business Category"
-              ? sameCategoryData
-              : sameLocationData
-          }
+          dataset={chartData}
           chartParam={chartParam}
+          geoData={geoData}
         />
       </main>
     </div>
@@ -242,7 +252,6 @@ const Data: NextPage<Props> = ({ dataset }) => {
 };
 
 export async function getStaticProps() {
-  // Warning: data for page "/data" is 955 kB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
   const dataset = await getDataSet();
   return {
     props: {

@@ -1,6 +1,7 @@
 import Paper from "@mui/material/Paper";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "leaflet/dist/leaflet.css";
+import './TableGrid.css';
 
 interface TableGridProps {
   dataset: Array<string>;
@@ -8,17 +9,13 @@ interface TableGridProps {
     param: string;
     currentValue: string;
   };
+  geoData: {
+    lat: number;
+    lng: number;
+  };
 }
 
-const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
-
-  const showLocation = () => {
-    if (chartParam.param === "location") {
-      return JSON.parse(chartParam.currentValue)
-    }
-  };
-  const location = showLocation();
-
+const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
   function createData(
     id: number,
     assetName: string,
@@ -49,7 +46,7 @@ const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
       type: "number",
     },
     { field: "riskFactors", headerName: "Risk Factors", width: 600 },
-    { field: "greatestRisk", headerName: "Greatest Risk(s)", width: 400 },
+    { field: "greatestRisk", headerName: "Greatest Risk", width: 200 },
     { field: "year", headerName: "Year", width: 60, type: "number" },
   ];
 
@@ -59,32 +56,34 @@ const TableGrid = ({ dataset, chartParam }: TableGridProps) => {
       return riskData[key];
     });
     let max = Math.max.apply(null, riskArr);
-    let greatest: any = {};
+    let greatest: any = [];
     for (let element in riskData) {
       if (riskData[element] === 0.0) {
         delete riskData[element];
       }
       if (riskData[element] === max) {
-        greatest[element] = max;
+        greatest = [element, max];
       }
     }
     const showRisk = Object.keys(riskData).join(",");
-    let renderGreatest = JSON.stringify(greatest);
     return createData(
       index,
       element[0],
       element[3],
       Number(element[4]),
       showRisk,
-      renderGreatest,
-      Number(element[6]) // remove number conversion
+      `${greatest[0]} : ${greatest[1]}`,
+      Number(element[6])
     );
   });
 
   return (
     <Paper>
       <h3>
-        Risk Data by {chartParam.param} for {chartParam.param !== "location" ? chartParam.currentValue : `latitude: ${location.lat} / longtitude: ${location.lng}`}
+        Risk Data by {chartParam.param} for{" "}
+        {chartParam.param !== "location"
+          ? chartParam.currentValue
+          : `latitude: ${geoData.lat} / longtitude: ${geoData.lng}`}
       </h3>
       <DataGrid
         rows={rows}
