@@ -1,3 +1,6 @@
+import getDataSet from "@/app/api/dataset/route";
+import ShowChart from "@/components/Chart/ShowChart";
+import TableGrid from "@/components/TableGrid/TableGrid";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,11 +10,8 @@ import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import getDataSet from "../app/api/dataset/route";
-import ShowChart from "../components/Chart/ShowChart";
-import TableGrid from "../components/TableGrid/TableGrid";
 import "./index.css";
-const ShowMap = dynamic(() => import("../components/Map/ShowMap"), {
+const ShowMap = dynamic(() => import("@/components/Map/ShowMap"), {
   ssr: false,
 });
 
