@@ -1,6 +1,7 @@
 import Paper from "@mui/material/Paper";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "leaflet/dist/leaflet.css";
+import './TableGrid.css';
 
 interface TableGridProps {
   dataset: Array<string>;

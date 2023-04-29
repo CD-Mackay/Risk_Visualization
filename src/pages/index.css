@@ -48,4 +48,10 @@ main {
 span {
   margin-left: 10px;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 12px;
+}
+
+h1 {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-transform: uppercase;
 }
