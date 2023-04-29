@@ -13,11 +13,6 @@ const nextConfig = {
         path: require.resolve('path-browserify'),
         public: path.resolve(__dirname, './public'),
         src: path.resolve(__dirname, './src'),
-        elements: path.resolve(__dirname, './src/components/elements'),
-        globalAssets: path.resolve(__dirname, './src/globalAssets'),
-        globalConfig: path.resolve(__dirname, './src/globalConfig'),
-        layouts: path.resolve(__dirname, './src/components/layouts'),
-        modules: path.resolve(__dirname, './src/components/modules')
     }
     return config;
   },
