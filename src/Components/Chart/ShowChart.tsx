@@ -13,7 +13,7 @@ interface ShowChartProps {
   };
 }
 
-const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
+export default function ShowChart({ dataset, geoData, chartParam }: ShowChartProps){
   Chart.register(...registerables);
 
   const result: { [key: string]: number[] } = {
@@ -84,4 +84,3 @@ const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
   );
 };
 
-export default ShowChart;

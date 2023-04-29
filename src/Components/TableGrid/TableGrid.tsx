@@ -15,7 +15,7 @@ interface TableGridProps {
   };
 }
 
-const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
+export default function TableGrid({ dataset, chartParam, geoData }: TableGridProps) {
   function createData(
     id: number,
     assetName: string,
@@ -96,5 +96,3 @@ const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
     </Paper>
   );
 };
-
-export default TableGrid;

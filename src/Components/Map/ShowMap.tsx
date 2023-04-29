@@ -13,13 +13,13 @@ interface ShowMapProps {
   handleChangeGeoData: Function;
 }
 
-const ShowMap = ({
+export default function ShowMap({
   dataset,
   geoData,
   center,
   handleChangeCenter,
   handleChangeGeoData,
-}: ShowMapProps) => {
+}: ShowMapProps){
   return (
     <MapContainer
       center={center}
@@ -40,5 +40,3 @@ const ShowMap = ({
     </MapContainer>
   );
 };
-
-export default ShowMap;
