@@ -8,12 +8,6 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
-    config.resolve.alias = {
-      ...config.resolve.alias,
-        path: require.resolve('path-browserify'),
-        public: path.resolve(__dirname, './public'),
-        src: path.resolve(__dirname, './src'),
-    }
     return config;
   },
 };
