@@ -56,7 +56,7 @@ const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
       },
       title: {
         display: true,
-        text: "Chart.js Line Chart",
+        text: "Risk Data over Time",
       },
     },
   };
@@ -65,7 +65,9 @@ const ShowChart = ({ dataset, geoData, chartParam }: ShowChartProps) => {
     labels: [2030, 2040, 2050, 2060, 2070],
     datasets: [
       {
-        label: `Risk Rating by decade for ${chartParam.param} ${chartParam.currentValue}`,
+        label: `Risk Rating by decade for ${chartParam.param} ${chartParam.param !== "location"
+        ? chartParam.currentValue
+        : `latitude: ${geoData.lat} / longtitude: ${geoData.lng}`}`,
         data: final,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",

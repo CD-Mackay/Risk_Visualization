@@ -45,7 +45,7 @@ const TableGrid = ({ dataset, chartParam, geoData }: TableGridProps) => {
       type: "number",
     },
     { field: "riskFactors", headerName: "Risk Factors", width: 600 },
-    { field: "greatestRisk", headerName: "Greatest Risk", width: 400 },
+    { field: "greatestRisk", headerName: "Greatest Risk", width: 200 },
     { field: "year", headerName: "Year", width: 60, type: "number" },
   ];
 
