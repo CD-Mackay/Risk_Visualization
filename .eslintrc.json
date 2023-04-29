@@ -7,7 +7,7 @@
           ["@/src", "./src"],
           ["@/public", "./public"]
         ],
-        "extensions": [".ts", ".js", ".jsx", ".json"],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
       }
     }
   }

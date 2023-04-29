@@ -6,6 +6,7 @@ const path = require('path')
 const nextConfig = {
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   experimental: {
+    appDir: true,
     largePageDataBytes: 956 * 100000,
   },
   webpack: (config) => {
