@@ -37,7 +37,6 @@ const ShowMap = ({
           handleChangeGeoData={handleChangeGeoData}
         />
       )}
-      {/* Should be using On hover tooltips rather than click-popups */}
     </MapContainer>
   );
 };
