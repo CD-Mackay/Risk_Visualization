@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path')
+
 const nextConfig = {
   experimental: {
     appDir: true,
@@ -8,7 +10,6 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     config.resolve.alias = {
       ...config.resolve.alias,
-      alias: {
         path: require.resolve('path-browserify'),
         public: path.resolve(__dirname, './public'),
         src: path.resolve(__dirname, './src'),
@@ -17,7 +18,6 @@ const nextConfig = {
         globalConfig: path.resolve(__dirname, './src/globalConfig'),
         layouts: path.resolve(__dirname, './src/components/layouts'),
         modules: path.resolve(__dirname, './src/components/modules')
-      },
     }
     return config;
   },
