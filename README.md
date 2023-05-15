@@ -18,4 +18,4 @@
   ### Data Table
     - A more user friendly version of the spreadsheet the data is fetched from. Pagination assists with managing the enormous dataset, and every category can be sorted and filtered.
 
-    ![View of the main screen of the application](/public/images/climate_risk_screenshot.png "Optional title")
+![View of the main screen of the application](/public/images/climate_risk_screenshot.png "Optional title")
