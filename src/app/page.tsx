@@ -1,4 +1,3 @@
-import getDataSet from "@/src/app/api/dataset/route";
 import ShowChart from "@/src/components/Chart/ShowChart";
 import TableGrid from "@/src/components/TableGrid/TableGrid";
 import Button from "@mui/material/Button";
@@ -6,20 +5,48 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import "./index.css";
+// import { google } from "googleapis";
+const { google } = require('googleapis');
 const ShowMap = dynamic(() => import("@/src/components/Map/ShowMap"), {
   ssr: false,
 });
 
-interface Props {
-  dataset: Array<string>;
+
+type dataProps =  {
+  dataset: Array<string>
 }
 
-const Data: NextPage<Props> = ({ dataset }) => {
+
+
+export default async function Page(){
+
+  // let dataset = [] as unknown as dataProps["dataset"]
+  // let response
+  // try {
+  //   const target = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
+  //   const jwt = new google.auth.JWT(
+  //     process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+  //     undefined,
+  //     (process.env.GOOGLE_SHEETS_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+  //     target
+  //   );
+
+  //   const sheets = google.sheets({ version: "v4", auth: jwt });
+  //   response = await sheets.spreadsheets.values.get({
+  //     spreadsheetId: process.env.SPREADSHEET_ID,
+  //     range: "sample_data",
+  //   });
+
+  //  dataset = response.data.values as unknown as dataProps["dataset"]
+  // } catch (err) { 
+  //   console.log(err);
+  // }
+
+  const dataset = await getDataSet()
   const [decade, setDecade] = useState(2030);
   const [isMounted, setIsMounted] = useState(false);
   const [geoData, setGeoData] = useState({ lat: 53.51684, lng: -113.3187 });
@@ -44,7 +71,7 @@ const Data: NextPage<Props> = ({ dataset }) => {
   };
 
   const makeSameLocationData = () => {
-    return dataset.filter((element) => {
+    return dataset.filter(( element) => {
       return (
         Number(element[1]) === geoData.lat && Number(element[2]) === geoData.lng
       );
@@ -251,13 +278,13 @@ const Data: NextPage<Props> = ({ dataset }) => {
   );
 };
 
-export async function getStaticProps() {
-  const dataset = await getDataSet();
-  return {
-    props: {
-      dataset,
-    },
-  };
-}
+// export async function getStaticProps() {
+//   const dataset = await getDataSet();
+//   return {
+//     props: {
+//       dataset,
+//     },
+//   };
+// }
 
-export default Data;
+// export default Data;
