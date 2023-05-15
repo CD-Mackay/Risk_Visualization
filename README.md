@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Climate Change Risk Visualizer
 
-## Getting Started
+  - Welcome! This application was originally built as an assessment project for a developer role. The purpose of the application is to fetch climate risk data from a spreadsheet and present it in a visual, user-friendly manner. 
+  - To run the application, first clone the repository to your local machine
+    - Run ```npm install``` to install dependencies
+    - ```npm run dev``` will boot the development version in your local environment.
 
-First, run the development server:
+## Features
+  - This application has three primary features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+  ### Interactive Map
+    - The map displays color coded markers indicating the location and relative risk level of various businesses. Hover over the marker to access more information
+      - Data is displayed according to the selected decade, use the dropdown at the top of the map to look at projected risk for other timelines.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  ### Line Chart
+    - The line chart can either be used to display cumulative risk for a geographic location, or risk for all assets belonging to a specific company. Use the dropdown menus at the top of the page to change parameters.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  ### Data Table
+    - A more user friendly version of the spreadsheet the data is fetched from. Pagination assists with managing the enormous dataset, and every category can be sorted and filtered.
