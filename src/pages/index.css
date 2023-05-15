@@ -28,6 +28,7 @@ main {
   text-align: center;
   background: #ff7894;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .map-controls-container {
